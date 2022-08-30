@@ -2,25 +2,23 @@ if ("webkitSpeechRecognition" in window) {
     let final_transcript = "";
 
     // Config
-    let webkitSpeechRecognition            = new webkitSpeechRecognition();
-    webkitSpeechRecognition.continuous     = true;
-    webkitSpeechRecognition.interimResults = true;
-    webkitSpeechRecognition.lang           = document.querySelector("#select_dialect").value;
+    let speechRecognition = new webkitSpeechRecognition();
 
+    console.log(document.querySelector("#select_dialect").value);
     // Events
-    webkitSpeechRecognition.onstart = () => {
+    speechRecognition.onstart = () => {
         document.querySelector("#listening").style.display = "flex";
         console.log("Speech Recognition Start");
     };
-    webkitSpeechRecognition.onend = () => {
+    speechRecognition.onend = () => {
         document.querySelector("#listening").style.display = "none";
         console.log("Speech Recognition Ended");
     };
-    webkitSpeechRecognition.onerror = () => {
+    speechRecognition.onerror = () => {
         document.querySelector("#listening").style.display = "none";
         console.log("Speech Recognition Error");
     };
-    webkitSpeechRecognition.onresult = (event) => {
+    speechRecognition.onresult = (event) => {
         console.log("Speech Recognition Result");
         document.querySelector("#loading").style.display = "loading";
         let interim_transcript = "";
@@ -39,12 +37,15 @@ if ("webkitSpeechRecognition" in window) {
 
     // Buttons
     document.querySelector("#start").onclick = () => {
-        webkitSpeechRecognition.start();
+        speechRecognition.continuous = true;
+        speechRecognition.interimResults = true;
+        speechRecognition.lang = document.querySelector("#select_dialect").value;
+        speechRecognition.start();
         document.querySelector("#start").disabled = true;
         document.querySelector("#stop").disabled = false;
     };
     document.querySelector("#stop").onclick = () => {
-        webkitSpeechRecognition.stop();
+        speechRecognition.stop();
         document.querySelector("#start").disabled = false;
         document.querySelector("#stop").disabled = true;
     };
